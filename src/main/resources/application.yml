@@ -1,0 +1,14 @@
+spring:
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL57Dialect
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    password: 1234
+    username: admin
+    url: jdbc:mysql://localhost:3306/rdstest
+
+

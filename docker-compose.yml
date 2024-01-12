@@ -1,0 +1,12 @@
+version: "3"
+services:
+  mysql-docker:
+    image: mysql:8.0.34
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: rdstest # database env 이름
+      MYSQL_USER: admin # DB user이름
+      MYSQL_ROOT_PASSWORD: test1234 # root pw
+      MYSQL_PASSWORD: 1234 # DB pw
+      container-name: "aws-mysql"
