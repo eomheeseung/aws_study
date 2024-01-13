@@ -1,1 +1,13 @@
 rootProject.name = 'aws_study'
+
+
+// test를 제외하고 빌드
+
+/*gradle.projectsEvaluated {
+    rootProject.allprojects {
+        afterEvaluate { project ->
+            project.tasks.findAll { it.name.startsWith('compileTest') }.each { it.enabled = false }
+        }
+    }
+}*/
+
