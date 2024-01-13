@@ -7,6 +7,6 @@ services:
     environment:
       MYSQL_DATABASE: rdstest # database env 이름
       MYSQL_USER: admin # DB user이름
-      MYSQL_ROOT_PASSWORD: test1234 # root pw
+      MYSQL_ROOT_PASSWORD: test1234 # root pwad
       MYSQL_PASSWORD: 1234 # DB pw
-      container-name: "aws-mysql"
+    container_name: "aws-mysql"
