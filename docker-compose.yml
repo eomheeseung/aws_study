@@ -14,9 +14,19 @@
 
 
 
+
 version: "3"
 
 services:
+  spring-boot-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      -  mysql-docker
+
   mysql-docker:
     image: mysql:8.0.34
     ports:
@@ -31,20 +41,25 @@ services:
       - aws-network
     volumes:
       - mysql-volume:/var/lib/mysql
-  aws-server:
-    container_name: aws-server
+
+  nginx:
+    container_name: nginx
     ports:
-      - "8080:8080"
-    image: aws-server
+      - "80:80"
+    image: nginx:latest
     volumes:
-      - aws-volume:/var/log
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - aws-volume:/var/log/nginx
     networks:
       - aws-network
-    depends_on: mysql-docker
+    depends_on:
+      - mysql-docker
+      - spring-boot-app
     environment:
       - DATABASE_URL=jdbc:mysql://mysql-docker:3306/rdstest
       - DATABASE_USERNAME=admin
       - DATABASE_PASSWORD=1234
+
 networks:
   aws-network:
     driver: bridge
@@ -54,4 +69,8 @@ volumes:
     driver: local
   aws-volume:
     driver: local
+
+
+
+
 
