@@ -6,13 +6,10 @@ spring:
       ddl-auto: create
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    password: 1234
+    password: test1234
     username: admin
 #    url: jdbc:mysql://localhost:3306/rdstest
-    url: jdbc:mysql://mysql-db-1:3306/rdsdb
-    hikari:
-      connection-timeout: 60000
-      maximum-pool-size: 5
+    url: jdbc:mysql://aws-mysql:3306/rdstest
 
 
 
