@@ -12,63 +12,45 @@
 #    container_name: "aws-mysql"
 
 
-
-
-
-version: "3"
+version: '3'
 
 services:
-  spring-boot-app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "8080:8080"
-    depends_on:
-      -  mysql-docker
-
-  mysql-docker:
+  mysql-db:
     image: mysql:8.0.34
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: rdsdb
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: 1234
     ports:
       - "3306:3306"
-    environment:
-      MYSQL_DATABASE: rdstest
-      MYSQL_USER: admin
-      MYSQL_ROOT_PASSWORD: test1234
-      MYSQL_PASSWORD: 1234
-    container_name: "aws-mysql"
-    networks:
-      - aws-network
-    volumes:
-      - mysql-volume:/var/lib/mysql
+#    healthcheck:
+#      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+#      timeout: 20s
+#      retries: 10
 
-  nginx:
-    container_name: nginx
-    ports:
-      - "80:80"
-    image: nginx:latest
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-      - aws-volume:/var/log/nginx
-    networks:
-      - aws-network
-    depends_on:
-      - mysql-docker
-      - spring-boot-app
-    environment:
-      - DATABASE_URL=jdbc:mysql://mysql-docker:3306/rdstest
-      - DATABASE_USERNAME=admin
-      - DATABASE_PASSWORD=1234
+#  spring-boot-app:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    ports:
+#      - "8080:8080"
+#    depends_on:
+#      - mysql-db
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db-1:3306/rdsdb
+#      SPRING_DATASOURCE_USERNAME: admin
+#      SPRING_DATASOURCE_PASSWORD: 1234
 
-networks:
-  aws-network:
-    driver: bridge
+#  nginx:
+#    image: nginx:latest
+#    ports:
+#      - "80:80"
+#    volumes:
+#      - ./nginx.conf:/etc/nginx/nginx.conf
+#    depends_on:
+#      - spring-boot-app
 
-volumes:
-  mysql-volume:
-    driver: local
-  aws-volume:
-    driver: local
 
 
 
